@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Simple Map</title>
+
+  <style type="text/css">
+    #map {
+      height: 800px;
+      width: 100%;
+    }
+
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .content-bar {
+      width: 30%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .content {
+      height: 10%;
+    }
+  </style>
+  <script defer src="http://localhost:4000/socket.io/socket.io.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+  
+<div id='map'></div>
+</body>
+<script defer src='map.js'></script>
+
+
+</html>
