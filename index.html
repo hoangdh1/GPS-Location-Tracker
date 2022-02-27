@@ -1,45 +1,201 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <title>Simple Map</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPS Location Tracker</title>
+
+  <script defer src="http://localhost:4000/socket.io/socket.io.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css' rel='stylesheet' />
+
+  <script src="https://use.fontawesome.com/2dc4e9d2a0.js"></script>
 
   <style type="text/css">
-    #map {
-      height: 800px;
-      width: 100%;
-    }
-
+    
     body {
-      height: 100%;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: Tahoma, Geneva, sans-serif;
+    }
+
+    #header {
+      height: 60px;
+      text-align: center;
+      background-color: #4d94ff;
+      color: #fff;
+    }
+
+    #content {
+      height: 100%;
       display: flex;
       flex-direction: row;
     }
+    
+    #map {
+      height: 800px;
+      width: 100%;
+      display: flex;
+    }
 
-    .content-bar {
-      width: 30%;
+    #content-bar {
+      width: 28%;
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
+      text-align: center;
+      background-color:  #cccccc;
     }
 
-    .content {
-      height: 10%;
+    .location {
+      height: 50%;
     }
+
+    h1 {
+      margin-bottom: 50px;
+    }
+
+    h2 {
+      margin-bottom: 40px;
+    }
+
+    p {
+      color: #000033;
+    }
+
+    .simulation {
+      border-top: 1px solid rgba(0, 0, 0, 0.3);
+      padding-top: 20px;
+      text-align: center;
+    }
+
+    /* Switch toggle btn  */
+    .simulation-btn {
+    }
+
+    .checkbox {
+      display: none;
+    }
+
+    .switch {
+      align-items: center;
+      background-color: gray;
+      border-radius: 500px;
+      cursor: pointer;
+      display: flex;
+      height: 40px;
+      justify-content: space-between;
+      padding: 0 10px;
+      position: relative;
+      user-select: none;
+      width: 80px;
+      margin: auto;
+    }
+
+    .checkbox:checked ~ .switch {
+      background-color: orange;
+    }
+
+    .checkbox:not(:checked) ~ .switch {
+      background-color: gray;
+    }
+
+    .switch__left,
+    .switch__right {
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .checkbox:checked ~ .switch .switch__left {
+      visibility: hidden;
+    }
+
+    .checkbox:not(:checked) ~ .switch .switch__right {
+      visibility: hidden;
+    }
+
+    .switch__circle {
+      height: 40px;
+      padding: 5px;
+      position: absolute;
+      transition: all 0.1s linear;
+      width: 40px;
+    }
+
+    .checkbox:checked ~ .switch .switch__circle {
+      left: 0;
+      right: calc(100% - 40px);
+    }
+
+    .checkbox:not(:checked) ~ .switch .switch__circle {
+      left: calc(100% - 40px);
+      right: 0;
+    }
+
+    .switch__circle-inner {
+      background-color: white;
+      border-radius: 50%;
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+
+    
   </style>
-  <script defer src="http://localhost:4000/socket.io/socket.io.js"></script>
-  <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body>
-  
-<div id='map'></div>
+  <div id="header">
+    <h1>
+      <i class="fa fa-map-marker" aria-hidden="true"></i>  GPS Location Tracker
+    </h1>
+  </div>
+
+  <div id="content">
+
+    <div id='map'></div>
+    <div id="content-bar">
+      <div class="location">
+        
+        <p style="color: #008055; font-size:24px">CURRENT POSITION</p>
+        <h4>Longtitude:</h4>
+        <p style="font-size: 50px;">105.835856</p>
+        <h4>Latitude:</h4>
+        <p style="font-size: 50px;">21.012236</p>
+      </div>
+
+      <div class="simulation">
+        <p style="color: #008055; font-size:24px">SIMULATION</p>
+        <div class="simulation-btn">
+          <input id="checkbox" type="checkbox" class="checkbox" />
+        
+          <label for="checkbox" class="switch">
+            <span class="switch__circle">
+              <span class="switch__circle-inner"></span>
+            </span>
+            <span class="switch__left">Off</span>
+            <span class="switch__right">On</span>
+          </label>
+        </div>
+      
+        
+
+      </div>
+    </div>
+  </div>
+
 </body>
+
 <script defer src='map.js'></script>
-
-
 </html>
+
+
+
+
