@@ -1,14 +1,14 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-const lastLocationSchema = new mongoose.Schema({
-    name:{type: String,
-        required: true,
-        unique:true
+const lastLocationSchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, unique: true },
+    lastLocation: {
+      type: String,
+      required: true,
     },
-  lastLocation:{
-    type: String,
-    required: true
-  }
-},{timestamps:true})
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('lastLocation', lastLocationSchema)
+module.exports = mongoose.model("lastLocation", lastLocationSchema);

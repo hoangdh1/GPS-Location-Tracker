@@ -21,6 +21,7 @@ mongoose.set("useFindAndModify", false);
 const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Mongoose"));
+
 const lastLocation = require("./models/lastLocation");
 
 app.get("/lastlocation", async (req, res) => {
@@ -61,6 +62,8 @@ io.on("connection", (socket) => {
           name: data.properties.title,
           lastLocation: newGeoJson,
         });
+
+        // Updata last location
         const savedData = await lastLocation.findOneAndUpdate(
           { name: lastData.name },
           { lastLocation: lastData.lastLocation }
@@ -69,6 +72,13 @@ io.on("connection", (socket) => {
           await lastData.save();
         }
 
+        // Save new last location
+        // await lastData.save(function (err) {
+        //   if (err) return handleError(err);
+        //   // saved!
+        //   console.log("Save last location");
+        // });
+
         console.log("Disconnected");
       } catch (error) {
         console.log(error);
@@ -76,7 +86,8 @@ io.on("connection", (socket) => {
     }
   });
 });
+
 //console.log(Date.now())
 server.listen(process.env.PORT || 4000, () =>
-  console.log(`Server has started.`)
+  console.log(`Server has started in port ${process.env.PORT}`)
 );
