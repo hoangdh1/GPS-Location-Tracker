@@ -44,8 +44,19 @@ const io = require("socket.io")(server, {
   },
 });
 
+// Simulation from UI -> server -> esp on/off mode
+io.on("onSimulateFromUI", (socket) => {
+  socket.emit("onSimulateFromServer", "on"); // off simulate from server to esp
+  console.log("onSimulateFromUI");
+});
+io.on("offSimulateFromUI", (socket) => {
+  socket.emit("offSimulateFromServer", "off"); // off simulate from server to esp
+  console.log("offSimulateFromUI");
+});
+
 io.on("connection", (socket) => {
   socket.emit("hi", "Xin chuc mung ket noi thanh cong");
+
   socket.on("sendData", (data) => {
     newGeoJson = JSON.stringify(data.data);
 
@@ -59,6 +70,7 @@ io.on("connection", (socket) => {
       try {
         let data = JSON.parse(newGeoJson);
         const lastData = new lastLocation({
+          name: data.timestamp,
           title: data.properties.title,
           lastLocation: newGeoJson,
         });
@@ -73,13 +85,9 @@ io.on("connection", (socket) => {
         // }
 
         // Save new last location
-        await lastData.save(function (err) {
-          if (err) return handleError(err);
-          // saved!
-          console.log("Save last location");
-        });
+        await lastData.save();
 
-        console.log("Disconnected");
+        console.log("Disconnected and save last location");
       } catch (error) {
         console.log(error);
       }

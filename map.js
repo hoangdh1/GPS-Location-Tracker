@@ -98,7 +98,6 @@ map.on("load", function () {
       });
     });
   });
-  // Add an image to use as a custom marker
 });
 
 // Simulation
@@ -108,7 +107,9 @@ const body = document.body;
 checkbox.addEventListener("change", (e) => {
   if (e.target.checked) {
     body.style.background = "#FFFF00";
+    socket.emit("onSimulateFromUI", "on");
   } else {
     document.body.style.background = "#000000";
+    socket.emit("offSimulateFromUI", "off");
   }
 });
