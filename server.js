@@ -9,7 +9,7 @@ app.use(cors());
 //object for 1 item (update with array when using many items)
 let newGeoJson;
 //
-// app.use(express.static(__dirname + "clients"));
+app.use(express.static(__dirname + "public"));
 
 const mongoose = require("mongoose");
 mongoose.connect(
