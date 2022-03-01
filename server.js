@@ -27,6 +27,10 @@ db.once("open", () => console.log("Connected to Mongoose"));
 
 const lastLocation = require("./models/lastLocation");
 
+app.get("/", (req, res) => {
+  return res.render("public/index.html");
+});
+
 app.get("/lastlocation", async (req, res) => {
   if (db.readyState == 1) {
     try {

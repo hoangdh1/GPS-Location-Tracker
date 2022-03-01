@@ -6,7 +6,11 @@ xhttp.onreadystatechange = function () {
     existData.push(JSON.parse(data[0].lastLocation));
   }
 };
-xhttp.open("GET", "http://localhost:4000/lastlocation", true);
+xhttp.open(
+  "GET",
+  "https://gpstrackinglocation.herokuapp.com/lastlocation",
+  true
+);
 xhttp.send();
 
 mapboxgl.accessToken =
