@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const express = require("express");
+const path = require("path");
 const app = express();
 const cors = require("cors");
 const server = require("http").createServer(app);
@@ -9,7 +10,7 @@ app.use(cors());
 //object for 1 item (update with array when using many items)
 let newGeoJson;
 //
-app.use(express.static(__dirname + "public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 const mongoose = require("mongoose");
 mongoose.connect(
@@ -28,7 +29,7 @@ db.once("open", () => console.log("Connected to Mongoose"));
 const lastLocation = require("./models/lastLocation");
 
 app.get("/", (req, res) => {
-  return res.render("public/index.html");
+  return res.render("./public/index.html");
 });
 
 app.get("/lastlocation", async (req, res) => {
