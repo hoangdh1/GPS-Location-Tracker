@@ -21,6 +21,13 @@ var map = new mapboxgl.Map({
 
 const socket = io("http://localhost:4000");
 map.on("load", function () {
+  // Curent position
+  const longtitude = existData[0].geometry.coordinates[0];
+  const latitude = existData[0].geometry.coordinates[1];
+  // Change in UI
+  document.getElementById("longtitude").innerText = longtitude;
+  document.getElementById("latitude").innerText = latitude;
+
   map.flyTo({
     center: existData[0].geometry.coordinates,
     speed: 5,
@@ -56,6 +63,13 @@ map.on("load", function () {
     console.log(typeof data.data);
 
     let json = data.data;
+
+    // Curent position
+    const longtitude = json.geometry.coordinates[0];
+    const latitude = json.geometry.coordinates[1];
+    // Change in UI
+    document.getElementById("longtitude").innerText = longtitude;
+    document.getElementById("latitude").innerText = latitude;
 
     map.flyTo({
       center: json.geometry.coordinates,

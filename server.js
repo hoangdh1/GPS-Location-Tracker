@@ -9,7 +9,7 @@ app.use(cors());
 //object for 1 item (update with array when using many items)
 let newGeoJson;
 //
-//app.use(express.static(__dirname+'clients'))
+// app.use(express.static(__dirname + "clients"));
 
 const mongoose = require("mongoose");
 mongoose.connect(process.env.DATABASE_URL, {
@@ -27,7 +27,7 @@ const lastLocation = require("./models/lastLocation");
 app.get("/lastlocation", async (req, res) => {
   if (db.readyState == 1) {
     try {
-      const existData = await lastLocation.find({});
+      const existData = await lastLocation.find({}).sort({ _id: -1 });
       res.status(200).send(existData);
     } catch (e) {
       res.send(e);
@@ -59,25 +59,25 @@ io.on("connection", (socket) => {
       try {
         let data = JSON.parse(newGeoJson);
         const lastData = new lastLocation({
-          name: data.properties.title,
+          title: data.properties.title,
           lastLocation: newGeoJson,
         });
 
         // Updata last location
-        const savedData = await lastLocation.findOneAndUpdate(
-          { name: lastData.name },
-          { lastLocation: lastData.lastLocation }
-        );
-        if (savedData === null) {
-          await lastData.save();
-        }
+        // const savedData = await lastLocation.findOneAndUpdate(
+        //   { name: lastData.name },
+        //   { lastLocation: lastData.lastLocation }
+        // );
+        // if (savedData === null) {
+        //   await lastData.save();
+        // }
 
         // Save new last location
-        // await lastData.save(function (err) {
-        //   if (err) return handleError(err);
-        //   // saved!
-        //   console.log("Save last location");
-        // });
+        await lastData.save(function (err) {
+          if (err) return handleError(err);
+          // saved!
+          console.log("Save last location");
+        });
 
         console.log("Disconnected");
       } catch (error) {
@@ -87,7 +87,7 @@ io.on("connection", (socket) => {
   });
 });
 
-//console.log(Date.now())
+// console.log(Date.now());
 server.listen(process.env.PORT || 4000, () =>
   console.log(`Server has started in port ${process.env.PORT}`)
 );
