@@ -12,10 +12,13 @@ let newGeoJson;
 // app.use(express.static(__dirname + "clients"));
 
 const mongoose = require("mongoose");
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(
+  "mongodb+srv://hoang:hoang@clusterdhl.fzrme.mongodb.net/IoT?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useFindAndModify", false);
 const db = mongoose.connection;
