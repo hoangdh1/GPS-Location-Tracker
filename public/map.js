@@ -6,7 +6,11 @@ xhttp.onreadystatechange = function () {
     existData.push(JSON.parse(data[0].lastLocation));
   }
 };
-xhttp.open("GET", "http://localhost:4000/lastlocation", true);
+xhttp.open(
+  "GET",
+  "https://gpstrackinglocation.herokuapp.com/lastlocation",
+  true
+);
 xhttp.send();
 
 mapboxgl.accessToken =
@@ -21,6 +25,13 @@ var map = new mapboxgl.Map({
 
 const socket = io("http://localhost:4000");
 map.on("load", function () {
+  // Curent position
+  const longtitude = existData[0].geometry.coordinates[0];
+  const latitude = existData[0].geometry.coordinates[1];
+  // Change in UI
+  document.getElementById("longtitude").innerText = longtitude;
+  document.getElementById("latitude").innerText = latitude;
+
   map.flyTo({
     center: existData[0].geometry.coordinates,
     speed: 5,
@@ -57,6 +68,13 @@ map.on("load", function () {
 
     let json = data.data;
 
+    // Curent position
+    const longtitude = json.geometry.coordinates[0];
+    const latitude = json.geometry.coordinates[1];
+    // Change in UI
+    document.getElementById("longtitude").innerText = longtitude;
+    document.getElementById("latitude").innerText = latitude;
+
     map.flyTo({
       center: json.geometry.coordinates,
       speed: 5,
@@ -84,7 +102,6 @@ map.on("load", function () {
       });
     });
   });
-  // Add an image to use as a custom marker
 });
 
 // Simulation
@@ -94,7 +111,9 @@ const body = document.body;
 checkbox.addEventListener("change", (e) => {
   if (e.target.checked) {
     body.style.background = "#FFFF00";
+    socket.emit("onSimulateFromUI", "on");
   } else {
     document.body.style.background = "#000000";
+    socket.emit("offSimulateFromUI", "off");
   }
 });

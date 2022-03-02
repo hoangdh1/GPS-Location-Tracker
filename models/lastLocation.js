@@ -11,4 +11,9 @@ const lastLocationSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("lastLocation", lastLocationSchema);
+module.exports = mongoose.model(
+  "lastLocation",
+  lastLocationSchema,
+  "lastlocations"
+);
+// lastloactions: name of collection
